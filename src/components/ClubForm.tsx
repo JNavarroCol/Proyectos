@@ -1,11 +1,13 @@
 import React, { useRef, useState } from 'react';
-import { Shield, Upload, X, Check, Building2, User, Phone, Mail, Award, Scale } from 'lucide-react';
-import { ClubInfo } from '../types';
+import { Shield, Upload, X, Check, Building2, User, Phone, Mail, Award, Scale, Download, Link, FileCode, Sparkles } from 'lucide-react';
+import { ClubInfo, LogoExportMode } from '../types';
+import { optimizeLogoImage, getStandardLogoFileName, downloadLogoFile } from '../utils/imageUtils';
+import { resolveCSVLogoValue } from '../utils/csvExport';
 
 interface ClubFormProps {
   club: ClubInfo;
   onChange: (field: keyof ClubInfo, value: string) => void;
-  onLogoUpload: (dataUrl: string, fileName: string) => void;
+  onLogoUpload: (dataUrl: string, fileName: string, compactBase64?: string) => void;
   onRemoveLogo: () => void;
 }
 
@@ -18,6 +20,11 @@ export const ClubForm: React.FC<ClubFormProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const activeMode: LogoExportMode = club.logoMode || 'filename';
+  const standardFileName = club.logoFileName || getStandardLogoFileName(club.clubName);
+  const resolvedLogoCSV = resolveCSVLogoValue(club, activeMode);
 
   const handleFile = (file: File) => {
     setUploadError(null);
@@ -30,13 +37,25 @@ export const ClubForm: React.FC<ClubFormProps> = ({
       return;
     }
 
+    setIsProcessing(true);
     const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        onLogoUpload(reader.result, file.name);
+    reader.onload = async () => {
+      try {
+        if (typeof reader.result === 'string') {
+          const rawData = reader.result;
+          const standardName = getStandardLogoFileName(club.clubName, file.name);
+          // Automatically create ultra-lightweight WebP/PNG thumbnail for efficient CSV serialization
+          const { compactDataUrl } = await optimizeLogoImage(rawData, 120);
+          onLogoUpload(rawData, standardName, compactDataUrl);
+        }
+      } catch {
+        setUploadError('No se pudo optimizar la imagen.');
+      } finally {
+        setIsProcessing(false);
       }
     };
     reader.onerror = () => {
+      setIsProcessing(false);
       setUploadError('Error al leer el archivo. Intenta de nuevo.');
     };
     reader.readAsDataURL(file);
@@ -56,6 +75,12 @@ export const ClubForm: React.FC<ClubFormProps> = ({
     setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleDownloadLogo = () => {
+    if (club.logoUrl) {
+      downloadLogoFile(club.logoUrl, standardFileName);
     }
   };
 
@@ -98,7 +123,7 @@ export const ClubForm: React.FC<ClubFormProps> = ({
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className={`relative flex-1 min-h-[190px] rounded-xl border-2 border-dashed p-4 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
+              className={`relative rounded-xl border-2 border-dashed p-4 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
                 isDragging
                   ? 'border-amber-500 bg-amber-50/50'
                   : club.logoUrl
@@ -118,13 +143,19 @@ export const ClubForm: React.FC<ClubFormProps> = ({
                 }}
               />
 
-              {club.logoUrl ? (
+              {isProcessing ? (
+                <div className="flex flex-col items-center py-4">
+                  <div className="w-8 h-8 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mb-2" />
+                  <p className="text-xs font-semibold text-slate-700">Optimizando imagen...</p>
+                  <p className="text-[11px] text-slate-500">Comprimiendo para transmisión eficiente en CSV</p>
+                </div>
+              ) : club.logoUrl ? (
                 <div className="flex flex-col items-center">
                   <div className="relative group">
                     <img
                       src={club.logoUrl}
                       alt="Escudo del Club"
-                      className="h-24 w-24 object-contain rounded-lg border border-slate-200 bg-white p-2 shadow-sm"
+                      className="h-20 w-20 object-contain rounded-lg border border-slate-200 bg-white p-2 shadow-xs"
                     />
                     <button
                       type="button"
@@ -139,23 +170,23 @@ export const ClubForm: React.FC<ClubFormProps> = ({
                     </button>
                   </div>
                   <p className="text-xs font-semibold text-slate-800 mt-2 truncate max-w-[200px]">
-                    {club.logoFileName || 'Escudo cargado'}
+                    {standardFileName}
                   </p>
-                  <p className="text-[11px] text-slate-500 mt-0.5">Clic para cambiar imagen</p>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Clic para cambiar archivo</p>
                 </div>
               ) : (
-                <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center mb-2">
-                    <Shield className="w-6 h-6" />
+                <div className="flex flex-col items-center py-2">
+                  <div className="h-10 w-10 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center mb-1.5">
+                    <Shield className="w-5 h-5" />
                   </div>
                   <p className="text-xs font-semibold text-slate-800">
                     Subir Escudo o Logo
                   </p>
                   <p className="text-[11px] text-slate-500 mt-0.5 max-w-[190px]">
-                    Arrastra aquí o haz clic para examinar (PNG, JPG, SVG hasta 5MB)
+                    Arrastra aquí o haz clic (PNG, JPG, SVG hasta 5MB)
                   </p>
-                  <span className="mt-2.5 inline-flex items-center gap-1 text-[11px] font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200/60">
-                    <Upload className="w-3 h-3" /> Seleccionar imagen
+                  <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60">
+                    <Upload className="w-3 h-3" /> Seleccionar
                   </span>
                 </div>
               )}
@@ -164,6 +195,118 @@ export const ClubForm: React.FC<ClubFormProps> = ({
             {uploadError && (
               <p className="text-xs text-rose-600 mt-2 font-medium">{uploadError}</p>
             )}
+
+            {/* Configuración de Formato Eficiente para la columna logo_club en CSV */}
+            <div className="mt-3.5 bg-slate-50 border border-slate-200 rounded-xl p-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1">
+                  <FileCode className="w-3.5 h-3.5 text-amber-600" />
+                  Formato en Columna <code className="font-mono text-amber-700 lowercase">logo_club</code>:
+                </span>
+              </div>
+
+              {/* Selector de Modos */}
+              <div className="grid grid-cols-3 gap-1 mb-2.5">
+                <button
+                  type="button"
+                  onClick={() => onChange('logoMode', 'filename')}
+                  className={`px-2 py-1.5 text-[11px] font-semibold rounded-lg border transition-all text-center ${
+                    activeMode === 'filename'
+                      ? 'bg-amber-500 text-slate-950 border-amber-600 font-bold shadow-xs'
+                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                  }`}
+                  title="Exporta el nombre normalizado del archivo (ej. escudo_club.png)"
+                >
+                  📁 Archivo
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onChange('logoMode', 'url')}
+                  className={`px-2 py-1.5 text-[11px] font-semibold rounded-lg border transition-all text-center ${
+                    activeMode === 'url'
+                      ? 'bg-amber-500 text-slate-950 border-amber-600 font-bold shadow-xs'
+                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                  }`}
+                  title="Exporta una URL web pública accesible"
+                >
+                  🔗 URL Web
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onChange('logoMode', 'base64')}
+                  className={`px-2 py-1.5 text-[11px] font-semibold rounded-lg border transition-all text-center ${
+                    activeMode === 'base64'
+                      ? 'bg-amber-500 text-slate-950 border-amber-600 font-bold shadow-xs'
+                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                  }`}
+                  title="Exporta imagen comprimida en Base64 ligero (<15KB)"
+                >
+                  ⚡ Base64
+                </button>
+              </div>
+
+              {/* Contenido condicional según el modo */}
+              {activeMode === 'filename' && (
+                <div className="space-y-1.5 text-[11px] text-slate-600">
+                  <p className="text-[10px] text-slate-500 leading-tight">
+                    Exporta el nombre estandarizado del archivo. Ideal para plataformas que reciben la base de datos junto con la carpeta de logos.
+                  </p>
+                  {club.logoUrl && (
+                    <button
+                      type="button"
+                      onClick={handleDownloadLogo}
+                      className="w-full inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-[11px] font-bold text-slate-800 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg shadow-2xs transition-colors"
+                    >
+                      <Download className="w-3 h-3 text-amber-600" />
+                      <span>Descargar imagen ({standardFileName})</span>
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {activeMode === 'url' && (
+                <div className="space-y-1.5">
+                  <label htmlFor="input-logo-url" className="text-[10px] text-slate-500 block leading-tight">
+                    Ingresa el enlace público de la imagen (ej: Google Drive, Cloudinary o web del club):
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="input-logo-url"
+                      type="url"
+                      value={club.logoExternalUrl || ''}
+                      onChange={(e) => onChange('logoExternalUrl', e.target.value)}
+                      placeholder="https://miclub.com/logo.png"
+                      className="w-full px-2.5 py-1 text-xs bg-white border border-slate-300 rounded-lg focus:outline-hidden focus:ring-1 focus:ring-amber-500 font-mono text-slate-800"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {activeMode === 'base64' && (
+                <div className="text-[10px] text-slate-500 leading-tight">
+                  {club.logoUrl ? (
+                    <p className="text-emerald-700 font-medium">
+                      ✓ Imagen auto-optimizada a tamaño miniatura (&lt;15 KB) para evitar desbordar límites de celdas de Excel.
+                    </p>
+                  ) : (
+                    <p className="text-slate-400">
+                      Carga un logo para generar su cadena Base64 ultraligera.
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* Previsualización del valor exacto en el CSV */}
+              <div className="mt-2 pt-2 border-t border-slate-200 flex items-center justify-between gap-1">
+                <span className="text-[10px] text-slate-400 font-medium">Valor CSV:</span>
+                <span
+                  title={resolvedLogoCSV}
+                  className="font-mono text-[10px] bg-white text-slate-800 px-1.5 py-0.5 rounded border border-slate-200 truncate max-w-[160px]"
+                >
+                  {resolvedLogoCSV || '(vacío)'}
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* Form Fields (8 cols on lg) */}

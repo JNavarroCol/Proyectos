@@ -99,12 +99,23 @@ export default function App() {
     setClub((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleLogoUpload = (dataUrl: string, fileName: string) => {
-    setClub((prev) => ({ ...prev, logoUrl: dataUrl, logoFileName: fileName }));
+  const handleLogoUpload = (dataUrl: string, fileName: string, compactBase64?: string) => {
+    setClub((prev) => ({
+      ...prev,
+      logoUrl: dataUrl,
+      logoFileName: fileName,
+      logoCompactBase64: compactBase64 || dataUrl,
+    }));
   };
 
   const handleRemoveLogo = () => {
-    setClub((prev) => ({ ...prev, logoUrl: '', logoFileName: '' }));
+    setClub((prev) => ({
+      ...prev,
+      logoUrl: '',
+      logoFileName: '',
+      logoCompactBase64: '',
+      logoExternalUrl: '',
+    }));
   };
 
   // Handlers for Competitors
