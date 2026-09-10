@@ -1,7 +1,7 @@
 import React from 'react';
-import { Shield, Trophy, Download, FileText, Sparkles, RotateCcw } from 'lucide-react';
+import { Shield, Trophy, Download, FileText, Sparkles, RotateCcw, Calendar, MapPin } from 'lucide-react';
 import { formatCOP } from '../utils/formatters';
-import { REGISTRATION_FEE_COP } from '../types';
+import { REGISTRATION_FEE_COP, TOURNAMENT_DATES, TOURNAMENT_LOCATION } from '../types';
 
 interface HeaderProps {
   athleteCount: number;
@@ -32,19 +32,28 @@ export const Header: React.FC<HeaderProps> = ({
               <Trophy className="w-6 h-6 text-slate-950" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                   Torneo Oficial CTG26
                 </span>
-                <span className="text-xs text-slate-400 font-medium hidden sm:inline-block">
+                <span className="inline-flex items-center gap-1 bg-slate-800 text-amber-300 border border-slate-700 text-xs font-bold px-2.5 py-0.5 rounded-full">
+                  <Calendar className="w-3 h-3 text-amber-400" />
+                  {TOURNAMENT_DATES}
+                </span>
+                <span className="text-xs text-slate-400 font-medium hidden lg:inline-block">
                   Lucha Olímpica (Libre & Grecorromana)
                 </span>
               </div>
               <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white mt-1">
                 Campeonato Nacional Interclubes CTG26
               </h1>
-              <p className="text-xs text-slate-400">
-                Sistema Oficial de Inscripción · Categorías U9, U12, U15 y U17
+              <p className="text-xs text-slate-400 flex items-center gap-1.5 flex-wrap">
+                <span>Sistema Oficial de Inscripción · Categorías U9, U12, U15 y U17</span>
+                <span className="hidden sm:inline text-slate-600">•</span>
+                <span className="inline-flex items-center gap-1 text-slate-300">
+                  <MapPin className="w-3 h-3 text-amber-400" />
+                  {TOURNAMENT_LOCATION}
+                </span>
               </p>
             </div>
           </div>

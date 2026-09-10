@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, Download, Copy, Check, FileSpreadsheet, AlertCircle } from 'lucide-react';
-import { ClubInfo, Competitor } from '../types';
+import { X, Download, Copy, Check, FileSpreadsheet, AlertCircle, Calendar } from 'lucide-react';
+import { ClubInfo, Competitor, TOURNAMENT_DATES } from '../types';
 import { generateCompetitorsCSV, downloadCSV } from '../utils/csvExport';
 
 interface ExportModalProps {
@@ -52,8 +52,10 @@ export const ExportModal: React.FC<ExportModalProps> = ({
               <h2 className="text-base font-bold text-white tracking-tight">
                 Exportar Base de Datos Oficial (CSV)
               </h2>
-              <p className="text-xs text-slate-400">
-                Campeonato Nacional Interclubes CTG26 · Formato compatible con Excel
+              <p className="text-xs text-slate-400 flex items-center gap-1.5 flex-wrap">
+                <span>Campeonato Nacional Interclubes CTG26</span>
+                <span>·</span>
+                <span className="text-amber-400 font-semibold">{TOURNAMENT_DATES}</span>
               </p>
             </div>
           </div>
@@ -71,7 +73,7 @@ export const ExportModal: React.FC<ExportModalProps> = ({
           <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl p-4 text-xs text-amber-950 flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
             <div>
-              <strong className="block font-bold">Instrucciones para la Delegación:</strong>
+              <strong className="block font-bold">Instrucciones para la Delegación ({TOURNAMENT_DATES}):</strong>
               <p className="mt-0.5">
                 Este archivo CSV contiene la totalidad de datos del club, directivos (Entrenador, Delegado, Árbitro), datos de contacto y la nómina completa de los {competitors.length} deportistas con sus documentos y divisiones de peso reglamentarias. Descárgalo y compártelo con el comité técnico de la organización del CTG26.
               </p>

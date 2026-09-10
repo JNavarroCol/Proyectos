@@ -1,8 +1,19 @@
-import { ClubInfo, Competitor, REGISTRATION_FEE_COP } from '../types';
+import { ClubInfo, Competitor, REGISTRATION_FEE_COP, TOURNAMENT_DATES, TOURNAMENT_LOCATION } from '../types';
 
 export function generateCompetitorsCSV(club: ClubInfo, competitors: Competitor[]): string {
   // Add UTF-8 Byte Order Mark (BOM) so Excel in Spanish opens special characters cleanly
   const BOM = '\uFEFF';
+
+  const metadataRows = [
+    `# EVENTO: CAMPEONATO NACIONAL INTERCLUBES CTG26`,
+    `# FECHA: ${TOURNAMENT_DATES}`,
+    `# SEDE: ${TOURNAMENT_LOCATION}`,
+    `# CLUB: ${club.clubName || 'Sin especificar'}`,
+    `# DELEGADO: ${club.delegateName || 'Sin especificar'}`,
+    `# TOTAL DEPORTISTAS: ${competitors.length}`,
+    `# FECHA DE EMISION: ${new Date().toLocaleDateString('es-CO')}`,
+    ``,
+  ];
 
   const headers = [
     'N°',
@@ -47,6 +58,7 @@ export function generateCompetitorsCSV(club: ClubInfo, competitors: Competitor[]
   ]);
 
   const csvContent = [
+    ...metadataRows,
     headers.map((h) => `"${h}"`).join(';'),
     ...rows.map((r) => r.join(';')),
   ].join('\r\n');

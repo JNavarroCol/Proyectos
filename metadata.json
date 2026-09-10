@@ -1,6 +1,6 @@
 {
   "name": "Campeonato Nacional Interclubes CTG26",
-  "description": "Sistema oficial de inscripción, liquidación y gestión de delegaciones para el Campeonato Nacional Interclubes CTG26 con categorías U9, U12, U15, U17, consentimiento informado y exportación CSV.",
+  "description": "Sistema oficial de inscripción, liquidación y gestión de delegaciones para el Campeonato Nacional Interclubes CTG26 (19 al 22 de noviembre del 2026 en Cartagena) con categorías U9, U12, U15, U17, consentimiento informado y exportación CSV.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

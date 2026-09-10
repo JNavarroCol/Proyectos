@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, Printer, Check, ShieldAlert, FileCheck, Building, UserCheck } from 'lucide-react';
-import { ClubInfo, Competitor, InformedConsent } from '../types';
+import { X, Printer, Check, ShieldAlert, FileCheck, Building, UserCheck, Calendar } from 'lucide-react';
+import { ClubInfo, Competitor, InformedConsent, TOURNAMENT_DATES, TOURNAMENT_LOCATION } from '../types';
 import { formatDateSpanish } from '../utils/formatters';
 
 interface InformedConsentModalProps {
@@ -114,9 +114,16 @@ export const InformedConsentModal: React.FC<InformedConsentModalProps> = ({
                 <p className="text-xs font-semibold text-slate-600 mt-0.5">
                   Lucha Olímpica · Categorías U9 - U12 - U15 - U17
                 </p>
-                <p className="text-xs text-slate-500">
-                  Cartagena de Indias, Colombia
-                </p>
+                <div className="flex flex-wrap items-center gap-2 mt-1.5 text-xs text-slate-700">
+                  <span className="inline-flex items-center gap-1 font-bold bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-md border border-amber-300/80">
+                    <Calendar className="w-3.5 h-3.5 text-amber-700" />
+                    Fecha del Evento: {TOURNAMENT_DATES}
+                  </span>
+                  <span>·</span>
+                  <span className="font-semibold text-slate-600">
+                    {TOURNAMENT_LOCATION}
+                  </span>
+                </div>
               </div>
 
               {club.logoUrl && (
@@ -176,7 +183,7 @@ export const InformedConsentModal: React.FC<InformedConsentModalProps> = ({
                 <strong>Veracidad y Manejo de la Información:</strong> Asumo la plena y exclusiva responsabilidad del manejo, autenticidad y veracidad de toda la información y datos personales consignados en este registro respecto a cada uno de los deportistas inscritos en la nómina anexa.
               </li>
               <li>
-                <strong>Exoneración de Responsabilidad de la Organización:</strong> Declaro y acepto expresamente que <strong>la organización del Campeonato Nacional Interclubes CTG26 NO se hará responsable</strong> por ninguna eventualidad, accidente fortuito, lesión deportiva, daño físico o contingencia que ocurra durante el traslado, desarrollo o conclusión del evento deportivo.
+                <strong>Exoneración de Responsabilidad de la Organización:</strong> Declaro y acepto expresamente que <strong>la organización del Campeonato Nacional Interclubes CTG26 NO se hará responsable</strong> por ninguna eventualidad, accidente fortuito, lesión deportiva, daño físico o contingencia que ocurra durante el traslado, desarrollo o conclusión del evento deportivo (a realizarse del 19 al 22 de noviembre del 2026).
               </li>
               <li>
                 <strong>Autorización Previa de Padres de Familia / Tutores:</strong> Certifico bajo juramento que <strong>los padres de familia y/o representantes legales de cada uno de los atletas</strong> relacionados a continuación <strong>han firmado previamente la debida autorización escrita</strong> para su participación en este campeonato deportivo, asumiendo los riesgos inherentes a la disciplina de Lucha Olímpica.

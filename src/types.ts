@@ -34,6 +34,8 @@ export interface InformedConsent {
 }
 
 export const REGISTRATION_FEE_COP = 60000;
+export const TOURNAMENT_DATES = '19 al 22 de Noviembre de 2026';
+export const TOURNAMENT_LOCATION = 'Cartagena de Indias, Colombia';
 
 export const CATEGORY_RULES: Record<
   AgeCategory,

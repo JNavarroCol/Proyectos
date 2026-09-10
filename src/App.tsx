@@ -4,8 +4,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Trophy, Shield, Info, Download, FileText, Sparkles, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
-import { ClubInfo, Competitor, InformedConsent, CATEGORY_RULES, REGISTRATION_FEE_COP } from './types';
+import { Trophy, Shield, Info, Download, FileText, Sparkles, CheckCircle2, ChevronDown, ChevronUp, Calendar } from 'lucide-react';
+import { ClubInfo, Competitor, InformedConsent, CATEGORY_RULES, REGISTRATION_FEE_COP, TOURNAMENT_DATES } from './types';
 import { SAMPLE_CLUB_INFO, SAMPLE_COMPETITORS } from './data/sampleData';
 import { Header } from './components/Header';
 import { ClubForm } from './components/ClubForm';
@@ -221,10 +221,14 @@ export default function App() {
             onClick={() => setShowCategoryRules(!showCategoryRules)}
             className="w-full px-6 py-3.5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors"
           >
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2.5 flex-wrap">
               <Info className="w-4 h-4 text-amber-600 shrink-0" />
               <span className="text-xs font-bold uppercase tracking-wider text-slate-800">
                 Reglamento de Categorías y Divisiones de Peso CTG26
+              </span>
+              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                <Calendar className="w-3 h-3 text-amber-600" />
+                {TOURNAMENT_DATES}
               </span>
               <span className="text-[11px] text-slate-500 hidden md:inline">
                 (U9, U12, U15, U17 · Libre Masculino, Libre Femenino y Grecorromana)
@@ -349,11 +353,12 @@ export default function App() {
       {/* Footer */}
       <footer className="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 mt-12 print:hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Trophy className="w-4 h-4 text-amber-500" />
             <span className="font-semibold text-slate-200">
               Campeonato Nacional Interclubes CTG26
             </span>
+            <span className="text-amber-400 font-semibold">({TOURNAMENT_DATES})</span>
             <span>· Sistema de Acreditación e Inscripción</span>
           </div>
           <div className="text-slate-500 text-[11px]">

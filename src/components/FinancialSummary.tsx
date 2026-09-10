@@ -1,6 +1,6 @@
 import React from 'react';
-import { DollarSign, FileText, Download, ShieldCheck, PieChart, Users } from 'lucide-react';
-import { Competitor, REGISTRATION_FEE_COP, AgeCategory, Modality } from '../types';
+import { DollarSign, FileText, Download, ShieldCheck, PieChart, Users, Calendar } from 'lucide-react';
+import { Competitor, REGISTRATION_FEE_COP, AgeCategory, Modality, TOURNAMENT_DATES } from '../types';
 import { formatCOP } from '../utils/formatters';
 
 interface FinancialSummaryProps {
@@ -195,7 +195,7 @@ export const FinancialSummary: React.FC<FinancialSummaryProps> = ({
             <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3 text-xs text-amber-900 flex items-start gap-2">
               <span className="font-bold text-amber-700">Importante:</span>
               <p>
-                Para formalizar la inscripción en el congresillo técnico del Campeonato Nacional CTG26, deberás presentar la base de datos CSV generada y el Consentimiento Informado debidamente firmado por el Delegado oficial del club.
+                Para formalizar la inscripción en el congresillo técnico del Campeonato Nacional CTG26 ({TOURNAMENT_DATES}), deberás presentar la base de datos CSV generada y el Consentimiento Informado debidamente firmado por el Delegado oficial del club.
               </p>
             </div>
           </div>
