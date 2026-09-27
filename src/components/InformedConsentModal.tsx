@@ -183,7 +183,7 @@ export const InformedConsentModal: React.FC<InformedConsentModalProps> = ({
                 <strong>Veracidad y Manejo de la Información:</strong> Asumo la plena y exclusiva responsabilidad del manejo, autenticidad y veracidad de toda la información y datos personales consignados en este registro respecto a cada uno de los deportistas inscritos en la nómina anexa.
               </li>
               <li>
-                <strong>Exoneración de Responsabilidad de la Organización:</strong> Declaro y acepto expresamente que <strong>la organización del Campeonato Nacional Interclubes CTG26 NO se hará responsable</strong> por ninguna eventualidad, accidente fortuito, lesión deportiva, daño físico o contingencia que ocurra durante el traslado, desarrollo o conclusión del evento deportivo (a realizarse del 19 al 22 de noviembre del 2026).
+                <strong>Exoneración de Responsabilidad de la Organización:</strong> Declaro y acepto expresamente que <strong>la organización del Campeonato Nacional Interclubes CTG26 NO se hará responsable</strong> por ninguna eventualidad, accidente fortuito, lesión deportiva, daño físico o contingencia que ocurra durante el traslado, desarrollo o conclusión del evento deportivo (a realizarse del {TOURNAMENT_DATES}).
               </li>
               <li>
                 <strong>Autorización Previa de Padres de Familia / Tutores:</strong> Certifico bajo juramento que <strong>los padres de familia y/o representantes legales de cada uno de los atletas</strong> relacionados a continuación <strong>han firmado previamente la debida autorización escrita</strong> para su participación en este campeonato deportivo, asumiendo los riesgos inherentes a la disciplina de Lucha Olímpica.
