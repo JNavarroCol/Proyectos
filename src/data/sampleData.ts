@@ -7,7 +7,6 @@ export const SAMPLE_CLUB_INFO: ClubInfo = {
   refereeName: 'Juez Nac. Roberto Silva',
   email: 'gladiadores.caribe@gmail.com',
   phone: '+57 310 458 9921',
-  logoUrl: '',
 };
 
 export const SAMPLE_COMPETITORS: Competitor[] = [

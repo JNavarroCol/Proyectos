@@ -38,8 +38,6 @@ export default function App() {
       refereeName: '',
       email: '',
       phone: '',
-      logoUrl: '',
-      logoFileName: '',
     };
   });
 
@@ -97,25 +95,6 @@ export default function App() {
   // Handlers for Club Form
   const handleClubChange = (field: keyof ClubInfo, value: string) => {
     setClub((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleLogoUpload = (dataUrl: string, fileName: string, compactBase64?: string) => {
-    setClub((prev) => ({
-      ...prev,
-      logoUrl: dataUrl,
-      logoFileName: fileName,
-      logoCompactBase64: compactBase64 || dataUrl,
-    }));
-  };
-
-  const handleRemoveLogo = () => {
-    setClub((prev) => ({
-      ...prev,
-      logoUrl: '',
-      logoFileName: '',
-      logoCompactBase64: '',
-      logoExternalUrl: '',
-    }));
   };
 
   // Handlers for Competitors
@@ -197,8 +176,6 @@ export default function App() {
       refereeName: '',
       email: '',
       phone: '',
-      logoUrl: '',
-      logoFileName: '',
     });
     setCompetitors([]);
     setConsent({
@@ -332,8 +309,6 @@ export default function App() {
         <ClubForm
           club={club}
           onChange={handleClubChange}
-          onLogoUpload={handleLogoUpload}
-          onRemoveLogo={handleRemoveLogo}
         />
 
         {/* 2. Competitor Form */}

@@ -2,8 +2,6 @@ export type AgeCategory = 'U9' | 'U12' | 'U15' | 'U17';
 
 export type Modality = 'Libre Masculino' | 'Libre Femenino' | 'Grecorromana';
 
-export type LogoExportMode = 'filename' | 'url' | 'base64';
-
 export interface ClubInfo {
   clubName: string;
   coachName: string;
@@ -11,11 +9,6 @@ export interface ClubInfo {
   refereeName: string;
   email: string;
   phone: string;
-  logoUrl?: string;
-  logoFileName?: string;
-  logoExternalUrl?: string;
-  logoMode?: LogoExportMode;
-  logoCompactBase64?: string;
 }
 
 export interface Competitor {

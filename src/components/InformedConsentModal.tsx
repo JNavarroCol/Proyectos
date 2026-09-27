@@ -126,15 +126,16 @@ export const InformedConsentModal: React.FC<InformedConsentModalProps> = ({
                 </div>
               </div>
 
-              {club.logoUrl && (
-                <div className="shrink-0">
-                  <img
-                    src={club.logoUrl}
-                    alt={club.clubName || 'Logo Club'}
-                    className="h-20 w-20 object-contain rounded-lg border border-slate-200 p-1 bg-white"
-                  />
+              <div className="shrink-0 text-right">
+                <div className="inline-flex flex-col items-center justify-center p-2.5 bg-slate-900 text-white rounded-xl border border-slate-800 shadow-xs print:border-slate-400">
+                  <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-black text-xs">
+                    CTG26
+                  </div>
+                  <span className="text-[9px] uppercase font-bold tracking-wider text-amber-400 mt-1 print:text-slate-900">
+                    Oficial
+                  </span>
                 </div>
-              )}
+              </div>
             </div>
           </div>
 
