@@ -1,4 +1,4 @@
-export type AgeCategory = 'U9' | 'U12' | 'U15' | 'U17';
+export type AgeCategory = 'U9' | 'U12' | 'U15' | 'U17' | 'U20';
 
 export type Modality = 'Libre Masculino' | 'Libre Femenino' | 'Grecorromana';
 
@@ -75,6 +75,13 @@ export const CATEGORY_RULES: Record<
       'Libre Masculino': ['48kg', '55kg', '60kg', '65kg', '80kg', '110kg'],
       'Grecorromana': ['48kg', '55kg', '60kg', '65kg', '80kg', '110kg'],
       'Libre Femenino': ['43kg', '49kg', '53kg', '57kg', '65kg', '73kg'],
+    },
+  },
+  U20: {
+    description: 'Sub-20 (Juvenil - Libre Masculino 65kgs)',
+    modalities: ['Libre Masculino'],
+    weights: {
+      'Libre Masculino': ['65kgs'],
     },
   },
 };

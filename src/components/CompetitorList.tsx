@@ -39,6 +39,8 @@ export const CompetitorList: React.FC<CompetitorListProps> = ({
         return 'bg-amber-50 text-amber-700 border-amber-200';
       case 'U17':
         return 'bg-purple-50 text-purple-700 border-purple-200';
+      case 'U20':
+        return 'bg-rose-50 text-rose-700 border-rose-200';
       default:
         return 'bg-slate-100 text-slate-700 border-slate-200';
     }
@@ -91,7 +93,7 @@ export const CompetitorList: React.FC<CompetitorListProps> = ({
           >
             Todos ({competitors.length})
           </button>
-          {(['U9', 'U12', 'U15', 'U17'] as AgeCategory[]).map((cat) => {
+          {(['U9', 'U12', 'U15', 'U17', 'U20'] as AgeCategory[]).map((cat) => {
             const count = competitors.filter((c) => c.ageCategory === cat).length;
             return (
               <button

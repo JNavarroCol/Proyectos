@@ -239,13 +239,13 @@ export const CompetitorForm: React.FC<CompetitorFormProps> = ({
               <label className="block text-xs font-bold text-slate-700 mb-2">
                 1. Categoría de Edad
               </label>
-              <div className="grid grid-cols-2 gap-2">
-                {(['U9', 'U12', 'U15', 'U17'] as AgeCategory[]).map((cat) => (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {(['U9', 'U12', 'U15', 'U17', 'U20'] as AgeCategory[]).map((cat) => (
                   <button
                     key={cat}
                     type="button"
                     onClick={() => setAgeCategory(cat)}
-                    className={`py-2 px-3 rounded-lg text-xs font-bold border transition-all text-center ${
+                    className={`py-2 px-2.5 rounded-lg text-xs font-bold border transition-all text-center ${
                       ageCategory === cat
                         ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
                         : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
@@ -253,7 +253,15 @@ export const CompetitorForm: React.FC<CompetitorFormProps> = ({
                   >
                     <span className="block text-sm font-black">{cat}</span>
                     <span className="text-[10px] font-normal opacity-80 block truncate">
-                      {cat === 'U9' ? 'Sub-9' : cat === 'U12' ? 'Sub-12' : cat === 'U15' ? 'Sub-15' : 'Sub-17'}
+                      {cat === 'U9'
+                        ? 'Sub-9'
+                        : cat === 'U12'
+                        ? 'Sub-12'
+                        : cat === 'U15'
+                        ? 'Sub-15'
+                        : cat === 'U17'
+                        ? 'Sub-17'
+                        : 'Sub-20 (65kgs)'}
                     </span>
                   </button>
                 ))}

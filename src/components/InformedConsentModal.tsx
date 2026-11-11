@@ -112,7 +112,7 @@ export const InformedConsentModal: React.FC<InformedConsentModalProps> = ({
                   Campeonato Nacional Interclubes CTG26
                 </h1>
                 <p className="text-xs font-semibold text-slate-600 mt-0.5">
-                  Lucha Olímpica · Categorías U9 - U12 - U15 - U17
+                  Lucha Olímpica · Categorías U9 - U12 - U15 - U17 - U20
                 </p>
                 <div className="flex flex-wrap items-center gap-2 mt-1.5 text-xs text-slate-700">
                   <span className="inline-flex items-center gap-1 font-bold bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-md border border-amber-300/80">

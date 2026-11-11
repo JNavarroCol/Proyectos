@@ -219,7 +219,7 @@ export default function App() {
                 {TOURNAMENT_DATES}
               </span>
               <span className="text-[11px] text-slate-500 hidden md:inline">
-                (U9, U12, U15, U17 · Libre Masculino, Libre Femenino y Grecorromana)
+                (U9, U12, U15, U17, U20 · Libre Masculino, Libre Femenino y Grecorromana)
               </span>
             </div>
             <div className="flex items-center gap-1 text-xs font-semibold text-amber-700">
@@ -229,7 +229,7 @@ export default function App() {
           </button>
 
           {showCategoryRules && (
-            <div className="p-6 bg-slate-50/70 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+            <div className="p-6 bg-slate-50/70 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-xs">
               {/* U9 */}
               <div className="bg-white p-4 rounded-xl border border-slate-200">
                 <div className="flex items-center justify-between mb-2">
@@ -298,6 +298,24 @@ export default function App() {
                   </p>
                   <p>
                     <strong className="text-slate-800">Libre Femenino:</strong> 43, 49, 53, 57, 65, 73kg
+                  </p>
+                </div>
+              </div>
+
+              {/* U20 */}
+              <div className="bg-white p-4 rounded-xl border border-slate-200">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-black text-slate-900 text-sm">U20</span>
+                  <span className="text-[10px] font-semibold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
+                    Sub-20 (Juvenil)
+                  </span>
+                </div>
+                <div className="space-y-1.5 text-slate-600">
+                  <p>
+                    <strong className="text-slate-800">Libre Masculino:</strong> 65kgs
+                  </p>
+                  <p className="text-[11px] text-amber-700 font-medium">
+                    Prueba oficial convocada (única división de peso)
                   </p>
                 </div>
               </div>

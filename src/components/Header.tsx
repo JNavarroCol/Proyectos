@@ -48,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({
                 Campeonato Nacional Interclubes CTG26
               </h1>
               <p className="text-xs text-slate-400 flex items-center gap-1.5 flex-wrap">
-                <span>Sistema Oficial de Inscripción · Categorías U9, U12, U15 y U17</span>
+                <span>Sistema Oficial de Inscripción · Categorías U9, U12, U15, U17 y U20</span>
                 <span className="hidden sm:inline text-slate-600">•</span>
                 <span className="inline-flex items-center gap-1 text-slate-300">
                   <MapPin className="w-3 h-3 text-amber-400" />

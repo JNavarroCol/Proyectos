@@ -60,4 +60,14 @@ export const SAMPLE_COMPETITORS: Competitor[] = [
     weightDivision: '65kg',
     createdAt: Date.now() - 1000 * 60 * 10,
   },
+  {
+    id: 'comp-6',
+    fullName: 'Sebastián Camilo Rentería',
+    birthDate: '2007-03-14',
+    idDocument: '1.047.882.119',
+    ageCategory: 'U20',
+    modality: 'Libre Masculino',
+    weightDivision: '65kgs',
+    createdAt: Date.now() - 1000 * 60 * 5,
+  },
 ];

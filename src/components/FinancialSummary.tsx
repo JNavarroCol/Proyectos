@@ -19,7 +19,7 @@ export const FinancialSummary: React.FC<FinancialSummaryProps> = ({
   const count = competitors.length;
   const totalAmount = count * REGISTRATION_FEE_COP;
 
-  const categories: AgeCategory[] = ['U9', 'U12', 'U15', 'U17'];
+  const categories: AgeCategory[] = ['U9', 'U12', 'U15', 'U17', 'U20'];
   const categoryBreakdown = categories.map((cat) => {
     const catCount = competitors.filter((c) => c.ageCategory === cat).length;
     return {
@@ -140,7 +140,7 @@ export const FinancialSummary: React.FC<FinancialSummaryProps> = ({
                 </h3>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
                 {categoryBreakdown.map((item) => (
                   <div
                     key={item.category}
