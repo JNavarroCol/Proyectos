@@ -27,9 +27,13 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           {/* Logo & Title */}
-          <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-amber-500/20 shrink-0">
-              <Trophy className="w-6 h-6 text-slate-950" />
+          <div className="flex items-center gap-3.5">
+            <div className="relative shrink-0">
+              <img
+                src="/assets/aistudio/CTG26_logo_transparente_2d5cee03.png"
+                alt="Logo Campeonato Nacional Interclubes de Lucha Olímpica CTG26"
+                className="h-14 sm:h-16 w-auto object-contain filter drop-shadow-md transition-transform hover:scale-105"
+              />
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2">

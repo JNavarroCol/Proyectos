@@ -4,8 +4,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Trophy, Shield, Info, Download, FileText, Sparkles, CheckCircle2, ChevronDown, ChevronUp, Calendar } from 'lucide-react';
-import { ClubInfo, Competitor, InformedConsent, CATEGORY_RULES, REGISTRATION_FEE_COP, TOURNAMENT_DATES } from './types';
+import { Trophy, Shield, Info, Download, FileText, Sparkles, CheckCircle2, ChevronDown, ChevronUp, Calendar, MapPin, FileSpreadsheet } from 'lucide-react';
+import { ClubInfo, Competitor, InformedConsent, CATEGORY_RULES, REGISTRATION_FEE_COP, TOURNAMENT_DATES, TOURNAMENT_LOCATION } from './types';
 import { SAMPLE_CLUB_INFO, SAMPLE_COMPETITORS } from './data/sampleData';
 import { Header } from './components/Header';
 import { ClubForm } from './components/ClubForm';
@@ -202,6 +202,52 @@ export default function App() {
 
       {/* Main Content Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+        {/* Main Event Official Hero Showcase */}
+        <section
+          aria-label="Presentación oficial del campeonato"
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950 text-white shadow-xl border border-slate-800"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/15 via-transparent to-transparent pointer-events-none" />
+          <div className="relative z-10 p-6 sm:p-8 lg:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="flex-1 space-y-3.5 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 bg-amber-500/20 text-amber-300 border border-amber-500/30 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                <Trophy className="w-3.5 h-3.5 text-amber-400" />
+                Torneo Nacional Oficial de Lucha Olímpica
+              </div>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white leading-tight">
+                Campeonato Nacional Interclubes <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-amber-100">CTG26</span>
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+                Plataforma oficial de acreditación e inscripción para clubes, delegados y deportistas. Categorías reglamentarias <strong>U9, U12, U15, U17 y U20</strong> en modalidades Libre Masculino, Libre Femenino y Grecorromana con generación automática del Consentimiento Informado y base de datos CSV.
+              </p>
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-1 text-xs">
+                <span className="inline-flex items-center gap-1.5 bg-slate-800/90 border border-slate-700/80 px-3 py-1.5 rounded-xl text-amber-300 font-bold shadow-xs">
+                  <Calendar className="w-3.5 h-3.5 text-amber-400" />
+                  {TOURNAMENT_DATES}
+                </span>
+                <span className="inline-flex items-center gap-1.5 bg-slate-800/90 border border-slate-700/80 px-3 py-1.5 rounded-xl text-slate-200 font-semibold shadow-xs">
+                  <MapPin className="w-3.5 h-3.5 text-amber-400" />
+                  {TOURNAMENT_LOCATION}
+                </span>
+                <span className="inline-flex items-center gap-1.5 bg-slate-800/90 border border-slate-700/80 px-3 py-1.5 rounded-xl text-emerald-300 font-semibold shadow-xs">
+                  <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+                  Plantilla CSV Oficial (12 columnas)
+                </span>
+              </div>
+            </div>
+
+            {/* Official Logo Centerpiece */}
+            <div className="shrink-0 flex items-center justify-center relative">
+              <div className="absolute -inset-4 bg-amber-500/25 rounded-full blur-2xl pointer-events-none" />
+              <img
+                src="/assets/aistudio/CTG26_logo_transparente_2d5cee03.png"
+                alt="Campeonato Nacional Interclubes de Lucha Olímpica CTG26"
+                className="relative z-10 w-64 sm:w-72 md:w-80 lg:w-96 h-auto object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)] transition-transform hover:scale-105 duration-300"
+              />
+            </div>
+          </div>
+        </section>
+
         {/* Tournament Categories Quick Reference Accordion */}
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
           <button

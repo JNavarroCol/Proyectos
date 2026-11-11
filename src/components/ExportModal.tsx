@@ -46,9 +46,11 @@ export const ExportModal: React.FC<ExportModalProps> = ({
         {/* Header */}
         <div className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center font-bold">
-              <FileSpreadsheet className="w-5 h-5" />
-            </div>
+            <img
+              src="/assets/aistudio/CTG26_logo_transparente_2d5cee03.png"
+              alt="CTG26"
+              className="h-10 w-auto object-contain shrink-0 filter drop-shadow-sm"
+            />
             <div>
               <h2 className="text-base font-bold text-white tracking-tight">
                 Exportar Base de Datos Oficial (Plantilla CSV)
