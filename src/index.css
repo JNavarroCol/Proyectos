@@ -13,6 +13,8 @@
   }
 
   header,
+  #section-hero,
+  #section-category-rules,
   #section-club-info,
   #section-competitor-form,
   #section-competitor-list,
@@ -21,10 +23,17 @@
     display: none !important;
   }
 
-  #modal-informed-consent {
+  #modal-informed-consent,
+  #modal-parental-authorization {
     position: static !important;
     background: transparent !important;
     padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .print-break-after {
+    page-break-after: always;
+    break-after: page;
   }
 }
 

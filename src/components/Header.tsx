@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Trophy, Download, FileText, Sparkles, RotateCcw, Calendar, MapPin } from 'lucide-react';
+import { Shield, Trophy, Download, FileText, Sparkles, RotateCcw, Calendar, MapPin, FileSignature } from 'lucide-react';
 import { formatCOP } from '../utils/formatters';
 import { REGISTRATION_FEE_COP, TOURNAMENT_DATES, TOURNAMENT_LOCATION } from '../types';
 
@@ -7,6 +7,7 @@ interface HeaderProps {
   athleteCount: number;
   clubName: string;
   onOpenConsent: () => void;
+  onOpenParentalAuth: () => void;
   onExportCSV: () => void;
   onLoadSample: () => void;
   onReset: () => void;
@@ -16,6 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
   athleteCount,
   clubName,
   onOpenConsent,
+  onOpenParentalAuth,
   onExportCSV,
   onLoadSample,
   onReset,
@@ -86,7 +88,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 id="btn-header-sample"
                 type="button"
@@ -99,11 +101,22 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
 
               <button
+                id="btn-header-parental-auth"
+                type="button"
+                onClick={onOpenParentalAuth}
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg border text-white bg-slate-800 hover:bg-slate-700 border-slate-600 shadow-sm transition-all whitespace-nowrap shrink-0"
+                title="Generar autorización de padres para participación, viaje con entrenador y hotel"
+              >
+                <FileSignature className="w-3.5 h-3.5 text-amber-400" />
+                <span>Autorización Padres</span>
+              </button>
+
+              <button
                 id="btn-header-consent"
                 type="button"
                 onClick={onOpenConsent}
                 disabled={athleteCount === 0}
-                className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg border transition-all ${
+                className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg border transition-all whitespace-nowrap shrink-0 ${
                   athleteCount > 0
                     ? 'text-white bg-slate-800 hover:bg-slate-700 border-slate-600 shadow-sm'
                     : 'text-slate-500 bg-slate-800/40 border-slate-800 cursor-not-allowed'

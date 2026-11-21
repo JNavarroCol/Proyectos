@@ -1,11 +1,12 @@
 import React from 'react';
-import { DollarSign, FileText, Download, ShieldCheck, PieChart, Users, Calendar } from 'lucide-react';
+import { DollarSign, FileText, Download, ShieldCheck, PieChart, Users, Calendar, FileSignature } from 'lucide-react';
 import { Competitor, REGISTRATION_FEE_COP, AgeCategory, Modality, TOURNAMENT_DATES } from '../types';
 import { formatCOP } from '../utils/formatters';
 
 interface FinancialSummaryProps {
   competitors: Competitor[];
   onOpenConsent: () => void;
+  onOpenParentalAuth: () => void;
   onExportCSV: () => void;
   consentSigned: boolean;
 }
@@ -13,6 +14,7 @@ interface FinancialSummaryProps {
 export const FinancialSummary: React.FC<FinancialSummaryProps> = ({
   competitors,
   onOpenConsent,
+  onOpenParentalAuth,
   onExportCSV,
   consentSigned,
 }) => {
@@ -115,6 +117,15 @@ export const FinancialSummary: React.FC<FinancialSummaryProps> = ({
 
               <button
                 type="button"
+                onClick={onOpenParentalAuth}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold transition-all border bg-slate-800 hover:bg-slate-700 text-amber-300 border-slate-700 hover:border-amber-500/40"
+              >
+                <FileSignature className="w-4 h-4 text-amber-400" />
+                <span>Autorización de Padres, Viaje y Hotel</span>
+              </button>
+
+              <button
+                type="button"
                 onClick={onExportCSV}
                 disabled={count === 0}
                 className={`w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold transition-all border ${
@@ -195,7 +206,7 @@ export const FinancialSummary: React.FC<FinancialSummaryProps> = ({
             <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3 text-xs text-amber-900 flex items-start gap-2">
               <span className="font-bold text-amber-700">Importante:</span>
               <p>
-                Para formalizar la inscripción en el congresillo técnico del Campeonato Nacional CTG26 ({TOURNAMENT_DATES}), deberás presentar la base de datos CSV generada y el Consentimiento Informado debidamente firmado por el Delegado oficial del club.
+                Para formalizar la inscripción en el congresillo técnico del Campeonato Nacional CTG26 ({TOURNAMENT_DATES}), deberás presentar la base de datos CSV generada, el Consentimiento Informado del Delegado y las Autorizaciones de Padres (participación, viaje con entrenador y alojamiento en hotel).
               </p>
             </div>
           </div>

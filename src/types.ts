@@ -31,6 +31,23 @@ export interface InformedConsent {
   signedAt?: string;
 }
 
+export interface DelegationTravelInfo {
+  coachIdDocument: string;
+  originCity: string;
+  hotelName: string;
+  hotelAddress: string;
+  travelDates: string;
+  transportMode: string;
+}
+
+export interface ParentGuardianInfo {
+  parentName: string;
+  parentId: string;
+  parentPhone: string;
+  relationship: string;
+  epsName: string;
+}
+
 export const REGISTRATION_FEE_COP = 60000;
 export const TOURNAMENT_DATES = '3 al 6 de diciembre del 2026';
 export const TOURNAMENT_LOCATION = 'Cartagena de Indias, Colombia';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Search, Trash2, Edit2, Copy, Tag, Calendar, IdCard, Dumbbell } from 'lucide-react';
+import { Users, Search, Trash2, Edit2, Copy, Tag, Calendar, IdCard, Dumbbell, FileSignature } from 'lucide-react';
 import { Competitor, AgeCategory, REGISTRATION_FEE_COP } from '../types';
 import { calculateAge, formatCOP } from '../utils/formatters';
 
@@ -8,6 +8,7 @@ interface CompetitorListProps {
   onDelete: (id: string) => void;
   onEdit: (competitor: Competitor) => void;
   onDuplicate: (competitor: Competitor) => void;
+  onOpenParentalAuth: (competitor: Competitor) => void;
 }
 
 export const CompetitorList: React.FC<CompetitorListProps> = ({
@@ -15,6 +16,7 @@ export const CompetitorList: React.FC<CompetitorListProps> = ({
   onDelete,
   onEdit,
   onDuplicate,
+  onOpenParentalAuth,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
@@ -242,6 +244,14 @@ export const CompetitorList: React.FC<CompetitorListProps> = ({
                     {/* Actions */}
                     <td className="py-3 px-4 text-center">
                       <div className="inline-flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => onOpenParentalAuth(comp)}
+                          className="p-1.5 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md transition-colors"
+                          title="Generar autorización de padres (viaje y hotel)"
+                        >
+                          <FileSignature className="w-3.5 h-3.5" />
+                        </button>
                         <button
                           type="button"
                           onClick={() => onEdit(comp)}

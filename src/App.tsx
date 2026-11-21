@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Trophy, Shield, Info, Download, FileText, Sparkles, CheckCircle2, ChevronDown, ChevronUp, Calendar, MapPin, FileSpreadsheet } from 'lucide-react';
-import { ClubInfo, Competitor, InformedConsent, CATEGORY_RULES, REGISTRATION_FEE_COP, TOURNAMENT_DATES, TOURNAMENT_LOCATION } from './types';
+import { ClubInfo, Competitor, InformedConsent, DelegationTravelInfo, ParentGuardianInfo, CATEGORY_RULES, REGISTRATION_FEE_COP, TOURNAMENT_DATES, TOURNAMENT_LOCATION } from './types';
 import { SAMPLE_CLUB_INFO, SAMPLE_COMPETITORS } from './data/sampleData';
 import { Header } from './components/Header';
 import { ClubForm } from './components/ClubForm';
@@ -13,12 +13,24 @@ import { CompetitorForm } from './components/CompetitorForm';
 import { CompetitorList } from './components/CompetitorList';
 import { FinancialSummary } from './components/FinancialSummary';
 import { InformedConsentModal } from './components/InformedConsentModal';
+import { ParentalAuthorizationModal } from './components/ParentalAuthorizationModal';
 import { ExportModal } from './components/ExportModal';
 import { formatCOP } from './utils/formatters';
 
 const STORAGE_KEY_CLUB = 'ctg26_club_info_v1';
 const STORAGE_KEY_COMPETITORS = 'ctg26_competitors_v1';
 const STORAGE_KEY_CONSENT = 'ctg26_consent_v1';
+const STORAGE_KEY_TRAVEL = 'ctg26_travel_info_v1';
+const STORAGE_KEY_PARENTS = 'ctg26_parent_infos_v1';
+
+const DEFAULT_TRAVEL_INFO: DelegationTravelInfo = {
+  coachIdDocument: '',
+  originCity: '',
+  hotelName: '',
+  hotelAddress: '',
+  travelDates: '2 al 7 de diciembre del 2026',
+  transportMode: 'Terrestre / Aéreo',
+};
 
 export default function App() {
   // Club Info State
@@ -73,9 +85,37 @@ export default function App() {
     };
   });
 
+  // Travel & Hotel Info State
+  const [travelInfo, setTravelInfo] = useState<DelegationTravelInfo>(() => {
+    const saved = localStorage.getItem(STORAGE_KEY_TRAVEL);
+    if (saved) {
+      try {
+        return { ...DEFAULT_TRAVEL_INFO, ...JSON.parse(saved) };
+      } catch (e) {
+        console.error('Failed to parse travel info from storage', e);
+      }
+    }
+    return DEFAULT_TRAVEL_INFO;
+  });
+
+  // Per-competitor Parent/Guardian Info State
+  const [parentInfos, setParentInfos] = useState<Record<string, ParentGuardianInfo>>(() => {
+    const saved = localStorage.getItem(STORAGE_KEY_PARENTS);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error('Failed to parse parent infos from storage', e);
+      }
+    }
+    return {};
+  });
+
   // UI state
   const [editingCompetitor, setEditingCompetitor] = useState<Competitor | null>(null);
   const [isConsentModalOpen, setIsConsentModalOpen] = useState(false);
+  const [isParentalAuthModalOpen, setIsParentalAuthModalOpen] = useState(false);
+  const [selectedAuthCompetitorId, setSelectedAuthCompetitorId] = useState<string | null>(null);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [showCategoryRules, setShowCategoryRules] = useState(false);
 
@@ -91,6 +131,23 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY_CONSENT, JSON.stringify(consent));
   }, [consent]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY_TRAVEL, JSON.stringify(travelInfo));
+  }, [travelInfo]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY_PARENTS, JSON.stringify(parentInfos));
+  }, [parentInfos]);
+
+  const handleUpdateParentInfo = (competitorId: string, info: ParentGuardianInfo) => {
+    setParentInfos((prev) => ({ ...prev, [competitorId]: info }));
+  };
+
+  const handleOpenParentalAuth = (competitor?: Competitor) => {
+    setSelectedAuthCompetitorId(competitor ? competitor.id : null);
+    setIsParentalAuthModalOpen(true);
+  };
 
   // Handlers for Club Form
   const handleClubChange = (field: keyof ClubInfo, value: string) => {
@@ -157,6 +214,14 @@ export default function App() {
       signerId: '73.198.420',
       signedAt: new Date().toISOString(),
     });
+    setTravelInfo({
+      coachIdDocument: '73.541.908',
+      originCity: 'Barranquilla, Atlántico',
+      hotelName: 'Hotel Almirante Cartagena Estelar',
+      hotelAddress: 'Av. San Martín con Calle 6, Bocagrande, Cartagena',
+      travelDates: '2 al 7 de diciembre del 2026',
+      transportMode: 'Bus Expreso de la Delegación',
+    });
   };
 
   // Reset data handler
@@ -185,6 +250,8 @@ export default function App() {
       signerName: '',
       signerId: '',
     });
+    setTravelInfo(DEFAULT_TRAVEL_INFO);
+    setParentInfos({});
     setEditingCompetitor(null);
   };
 
@@ -195,17 +262,19 @@ export default function App() {
         athleteCount={competitors.length}
         clubName={club.clubName}
         onOpenConsent={() => setIsConsentModalOpen(true)}
+        onOpenParentalAuth={() => handleOpenParentalAuth()}
         onExportCSV={() => setIsExportModalOpen(true)}
         onLoadSample={handleLoadSample}
         onReset={handleReset}
       />
 
       {/* Main Content Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 print:p-0 print:m-0 print:max-w-none">
         {/* Main Event Official Hero Showcase */}
         <section
+          id="section-hero"
           aria-label="Presentación oficial del campeonato"
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950 text-white shadow-xl border border-slate-800"
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950 text-white shadow-xl border border-slate-800 print:hidden"
         >
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/15 via-transparent to-transparent pointer-events-none" />
           <div className="relative z-10 p-6 sm:p-8 lg:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
@@ -249,7 +318,7 @@ export default function App() {
         </section>
 
         {/* Tournament Categories Quick Reference Accordion */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+        <div id="section-category-rules" className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden print:hidden">
           <button
             type="button"
             onClick={() => setShowCategoryRules(!showCategoryRules)}
@@ -389,12 +458,14 @@ export default function App() {
           onDelete={handleDeleteCompetitor}
           onEdit={handleEditCompetitor}
           onDuplicate={handleDuplicateCompetitor}
+          onOpenParentalAuth={handleOpenParentalAuth}
         />
 
         {/* 4. Financial Summary */}
         <FinancialSummary
           competitors={competitors}
           onOpenConsent={() => setIsConsentModalOpen(true)}
+          onOpenParentalAuth={() => handleOpenParentalAuth()}
           onExportCSV={() => setIsExportModalOpen(true)}
           consentSigned={!!consent.signedAt}
         />
@@ -412,7 +483,7 @@ export default function App() {
             <span>· Sistema de Acreditación e Inscripción</span>
           </div>
           <div className="text-slate-500 text-[11px]">
-            Inscripción oficial: $60.000 COP por participante · Incluye consentimiento informado y exportación CSV
+            Inscripción oficial: $60.000 COP por participante · Incluye consentimiento informado, autorización de padres y exportación CSV
           </div>
         </div>
       </footer>
@@ -425,6 +496,18 @@ export default function App() {
         competitors={competitors}
         consent={consent}
         onSaveConsent={setConsent}
+      />
+
+      <ParentalAuthorizationModal
+        isOpen={isParentalAuthModalOpen}
+        onClose={() => setIsParentalAuthModalOpen(false)}
+        club={club}
+        competitors={competitors}
+        initialCompetitorId={selectedAuthCompetitorId}
+        travelInfo={travelInfo}
+        onUpdateTravelInfo={setTravelInfo}
+        parentInfos={parentInfos}
+        onUpdateParentInfo={handleUpdateParentInfo}
       />
 
       <ExportModal
